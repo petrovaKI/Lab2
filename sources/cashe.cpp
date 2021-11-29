@@ -20,15 +20,15 @@ Cashe::Cashe() {
   void Cashe::direct_type() {
     travel_type = "direction";
     for (const int &i : size_buf) {
-      int *arr = new int[static_cast<int>(i / sizeof(int) / 1024)];
+      int *arr = new int[i / sizeof(int)];
       //прогрев
-      for (size_t j = 0; j < i / sizeof(int) / 1024; j += 16) {
+      for (size_t j = 0; j < i / sizeof(int); j += 16) {
         k = arr[j];
       }
       //подсчёт
       int start_time = clock();
       for (size_t num = 0; num < 1000; ++num) {
-        for (size_t j = 0; j < i / sizeof(int) / 1024; j += 16) {
+        for (size_t j = 0; j < i / sizeof(int); j += 16) {
           k = arr[j];
         }
       }
@@ -42,16 +42,16 @@ Cashe::Cashe() {
   void Cashe::reverse_type() {
     travel_type = "reverse";
     for (const int& i : size_buf) {
-      int* arr = new int[static_cast<int>(i / sizeof(int) / 1024)];
+      int* arr = new int[i / sizeof(int)];
 
       //прогрев
-      for (size_t j = i / sizeof(int) / 1024; j > 0 ; j -= 16){
+      for (size_t j = i / sizeof(int); j > 0 ; j -= 16){
         k = arr[j];
       }
       //подсчёт
       int start_time = clock();
       for (size_t num = 0; num < 1000; ++num){
-        for (size_t j = i / sizeof(int) / 1024; j > 0; j -= 16){
+        for (size_t j = i / sizeof(int); j > 0; j -= 16){
           k = arr[j];
         }
       }
@@ -65,9 +65,9 @@ Cashe::Cashe() {
   void Cashe::random_type() {
     travel_type = "random";
     for (const int& i : size_buf) {
-      int* arr = new int[static_cast<int>(i / 4.0 / 1024)];
+      int *arr = new int[i / sizeof(int)];
       std::vector<int> index_of_blocks;
-      for (size_t j = 0; j < i / sizeof(int) / 1024; j += 16){
+      for (size_t j = 0; j < i / sizeof(int); j += 16){
         index_of_blocks.push_back(j);
         k = arr[j];
       }
