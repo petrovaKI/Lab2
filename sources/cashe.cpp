@@ -108,6 +108,4 @@ Cashe::Cashe() {
       std::cout << a.get_information(i).str();
 
     std::cout << "\n";
-
   }
-
