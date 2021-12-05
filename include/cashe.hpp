@@ -16,7 +16,7 @@ class Cashe {
   void direct_type();
   void reverse_type();
   void random_type();
-  void get_information(std::ostream &os,size_t num_exp) const;
+  void get_information(std::ostream &os, size_t num_exp) const;
   void print(std::ostream &os);
  private:
   //3 уровня кеша (L1 - 256 КБ, L2 - 1 МБ, L3 - 6 МБ)

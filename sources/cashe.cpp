@@ -60,16 +60,16 @@ Cashe::Cashe() {
     travel_type = "random";
     for (const int& i : mem_exp) {
       int *arr = new int[i / sizeof(int)];
-      std::vector<int> index_of_blocks;
+      std::vector<int> indexes;
       for (size_t j = 0; j < i / sizeof(int); j += 16){
-        index_of_blocks.push_back(j);
+        indexes.push_back(j);
         k = arr[j];
       }
-      std::random_shuffle(index_of_blocks.begin(), index_of_blocks.end());
+      std::random_shuffle(indexes.begin(), indexes.end());
 
       int start_time = clock();
       for (size_t num = 0; num < 1000; ++num){
-        for (const auto &index : index_of_blocks){
+        for (const auto &index : indexes){
           k = arr[index];
         }
       }
@@ -80,7 +80,7 @@ Cashe::Cashe() {
     }
   }
 
-  void Cashe::get_information(std::ostream &os,size_t num_exp) const{
+  void Cashe::get_information(std::ostream &os, size_t num_exp) const{
     os << "\t- experiment:\n"
         << "\t\tnumber: " << num_exp + 1 << "\n"
         << "\t\tinput_data:\n"
@@ -92,5 +92,5 @@ Cashe::Cashe() {
   void Cashe::print(std::ostream &os){
     os << "investigation:\n" << "\ttravel_order: " << travel_type << "\n";
     for (size_t i = 0; i < mem_exp.size(); ++i)
-      get_information(os,i);
+      get_information(os, i);
   }
