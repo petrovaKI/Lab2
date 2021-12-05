@@ -132,29 +132,145 @@ cache_size['3'] = 8 mb;
 
 ### Результаты
 
-Ниже представлен формат и пример отчета:
+Ниже представлен отчет:
 
 ```yaml
-investigation:                                       |  investigaion:
-  travel_variant: <вариант_прохода>                  |    travel_order: "direction"
-  experiments:                                       |    experiments:
-  - experiment:                                      |    - experiment:
-      number:                                        |        number: 1
-      input_data:                                    |        input_data:
-        buffer_size: <размер_буфера>                 |          buffer_size: "1mb"
-      results:                                       |        results:
-        duration: <продолжительность>                |          duration: "1ns"
-  - experiment:                                      |    - experiment:
-      number: <номер_эксперимента>                   |        number: 2
-      input_data:                                    |        input_data:
-        buffer_size: <размер_буфера>                 |          buffer_size: "2mb"
-      results:                                       |        results:
-        duration: <продолжительность>                |          duration: "2ns"
-                                                     |
-investigation:                                       |  investigation:
-...                                                  |  ...
-```
+investigation:
+  travel_order: direction
+    - experiment:
+    number: 1
+    input_data:
+      buffer_size: 128Kb
+    results:
+      duration: 6.373ms
+    - experiment:
+    number: 2
+    input_data:
+      buffer_size: 256Kb
+    results:
+      duration: 13.603ms
+    - experiment:
+    number: 3
+    input_data:
+      buffer_size: 512Kb
+    results:
+      duration: 25.419ms
+    - experiment:
+    number: 4
+    input_data:
+      buffer_size: 1024Kb
+    results:
+      duration: 50.057ms
+    - experiment:
+    number: 5
+    input_data:
+      buffer_size: 2048Kb
+    results:
+      duration: 97.137ms
+    - experiment:
+    number: 6
+    input_data:
+      buffer_size: 4096Kb
+    results:
+      duration: 187.304ms
+    - experiment:
+    number: 7
+    input_data:
+      buffer_size: 8192Kb
+    results:
+      duration: 280.615ms
 
+investigation:
+  travel_order: reverse
+    - experiment:
+    number: 1
+    input_data:
+      buffer_size: 128Kb
+    results:
+      duration: 5.861ms
+    - experiment:
+    number: 2
+    input_data:
+      buffer_size: 256Kb
+    results:
+      duration: 9.636ms
+    - experiment:
+    number: 3
+    input_data:
+      buffer_size: 512Kb
+    results:
+      duration: 17.027ms
+    - experiment:
+    number: 4
+    input_data:
+      buffer_size: 1024Kb
+    results:
+      duration: 33.322ms
+    - experiment:
+    number: 5
+    input_data:
+      buffer_size: 2048Kb
+    results:
+      duration: 68.859ms
+    - experiment:
+    number: 6
+    input_data:
+      buffer_size: 4096Kb
+    results:
+      duration: 158.19ms
+    - experiment:
+    number: 7
+    input_data:
+      buffer_size: 8192Kb
+    results:
+      duration: 315.392ms
+
+investigation:
+  travel_order: random
+    - experiment:
+    number: 1
+    input_data:
+      buffer_size: 128Kb
+    results:
+      duration: 18.996ms
+    - experiment:
+    number: 2
+    input_data:
+      buffer_size: 256Kb
+    results:
+      duration: 35.969ms
+    - experiment:
+    number: 3
+    input_data:
+      buffer_size: 512Kb
+    results:
+      duration: 72.679ms
+    - experiment:
+    number: 4
+    input_data:
+      buffer_size: 1024Kb
+    results:
+      duration: 167.263ms
+    - experiment:
+    number: 5
+    input_data:
+      buffer_size: 2048Kb
+    results:
+      duration: 314.031ms
+    - experiment:
+    number: 6
+    input_data:
+      buffer_size: 4096Kb
+    results:
+      duration: 695.068ms
+    - experiment:
+    number: 7
+    input_data:
+      buffer_size: 8192Kb
+    results:
+      duration: 1679.93ms
+```
+![img.png](img.png)
 ### Рекомендации
 
 При создание неиспользуемых переменных для считывание данных из буфера можно использовать аттрибут `[[maybe_unused]]`

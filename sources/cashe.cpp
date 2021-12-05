@@ -4,22 +4,16 @@
 #include <iomanip>
 #include <string>
 #include <algorithm>
-#include <random>
 
 Cashe::Cashe() {
-  for (int size = 1.0 / 2 * cache_size[0]; size <= 3.0 / 2 * cache_size[2];
+  for (int size = 0.5 * cache_size[0]; size <= 1.5 * cache_size[2];
        size *= 2) {
-    size_buf.push_back(size);
+    mem_exp.push_back(size);
   }
 }
-  size_t Cashe::get_count_buf() const
-  {
-    return size_buf.size(); //определяем количество экспериментов
-  }
-
   void Cashe::direct_type() {
     travel_type = "direction";
-    for (const int &i : size_buf) {
+    for (const int &i : mem_exp) {
       int *arr = new int[i / sizeof(int)];
       //прогрев
       for (size_t j = 0; j < i / sizeof(int); j += 16) {
@@ -33,7 +27,7 @@ Cashe::Cashe() {
         }
       }
       int end_time = clock();
-      result.push_back(
+      time_exp.push_back(
           static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC * 1000);
       delete []arr;
     }
@@ -41,7 +35,7 @@ Cashe::Cashe() {
 
   void Cashe::reverse_type() {
     travel_type = "reverse";
-    for (const int& i : size_buf) {
+    for (const int& i : mem_exp) {
       int* arr = new int[i / sizeof(int)];
 
       //прогрев
@@ -56,7 +50,7 @@ Cashe::Cashe() {
         }
       }
       int end_time = clock();
-      result.push_back(static_cast<double>(end_time - start_time)
+      time_exp.push_back(static_cast<double>(end_time - start_time)
                                       / CLOCKS_PER_SEC * 1000);
       delete []arr;
     }
@@ -64,48 +58,39 @@ Cashe::Cashe() {
 
   void Cashe::random_type() {
     travel_type = "random";
-    for (const int& i : size_buf) {
+    for (const int& i : mem_exp) {
       int *arr = new int[i / sizeof(int)];
       std::vector<int> index_of_blocks;
       for (size_t j = 0; j < i / sizeof(int); j += 16){
         index_of_blocks.push_back(j);
         k = arr[j];
       }
-      auto rng = std::default_random_engine {};
-      std::shuffle(index_of_blocks.begin(), index_of_blocks.end(), rng);
+      std::random_shuffle(index_of_blocks.begin(), index_of_blocks.end());
 
       int start_time = clock();
       for (size_t num = 0; num < 1000; ++num){
-        for (auto index : index_of_blocks){
+        for (const auto &index : index_of_blocks){
           k = arr[index];
         }
       }
       int end_time = clock();
-      result.push_back(static_cast<double>(end_time - start_time)
+      time_exp.push_back(static_cast<double>(end_time - start_time)
                                       / CLOCKS_PER_SEC * 1000);
       delete []arr;
     }
   }
 
-  std::stringstream Cashe::get_information(size_t num_exp) const{
-    std::stringstream out;
-    out << "\t- experiment:\n"
+  void Cashe::get_information(std::ostream &os,size_t num_exp) const{
+    os << "\t- experiment:\n"
         << "\t\tnumber: " << num_exp + 1 << "\n"
         << "\t\tinput_data:\n"
-        << "\t\t\tbuffer_size: " << size_buf[num_exp] / 1024 << "Kb" <<"\n"
+        << "\t\t\tbuffer_size: " << mem_exp[num_exp] / 1024 << "Kb" <<"\n"
         << "\t\tresults:\n"
-        << "\t\t\tduration: " << result[num_exp] << "ms" << '\n';
-    return out;
+        << "\t\t\tduration: " << time_exp[num_exp] << "ms" << '\n';
   }
 
-  std::string Cashe::type() const {
-    return travel_type;
-  }
-
-  void Cashe::print(const Cashe &a){
-    std::cout << "investigation:\n" << "\ttravel_order: " << a.type() << "\n";
-    for (size_t i = 0; i < a.get_count_buf(); ++i)
-      std::cout << a.get_information(i).str();
-
-    std::cout << "\n";
+  void Cashe::print(std::ostream &os){
+    os << "investigation:\n" << "\ttravel_order: " << travel_type << "\n";
+    for (size_t i = 0; i < mem_exp.size(); ++i)
+      get_information(os,i);
   }
